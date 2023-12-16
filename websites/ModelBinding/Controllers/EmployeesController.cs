@@ -35,7 +35,7 @@ namespace ModelBinding.Controllers
         {
             try
             {
-                
+
                 Employee.Insert(obj);
 
                 return RedirectToAction(nameof(Index));
@@ -47,15 +47,11 @@ namespace ModelBinding.Controllers
         }
 
         // GET: EmployeesController/Edit/5
-        public ActionResult Edit(int id = 1)
+        public ActionResult Edit(int id)
         {
 
-            Employee employee = new Employee();
-
-            employee.EmpNo = 1;
-            employee.Name = "Jitendra";
-            employee.Basic = 12345;
-            employee.DeptNo = 4;
+            Employee employee = Employee.getEmployee(id);
+            Console.WriteLine("in edit get method");
 
             return View(employee);
         }
@@ -63,10 +59,13 @@ namespace ModelBinding.Controllers
         // POST: EmployeesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Employee obj, int id)
         {
             try
             {
+
+                Employee.updateAll(obj);
+
                 return RedirectToAction(nameof(Index));
             }
             catch

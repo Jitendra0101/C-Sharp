@@ -139,6 +139,42 @@ namespace ModelBinding.Models
             }
         }
 
+        public static void updateAll(Employee emp)
+        {
+            SqlConnection cn = new SqlConnection();
+            cn.ConnectionString = "Data Source=(localdb)\\ProjectModels;Initial Catalog=ActsDec2023;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+
+            try
+            {
+                cn.Open();
+
+                SqlCommand cmdInsert = new SqlCommand();
+                cmdInsert.Connection = cn;  // Set the connection for the SqlCommand
+                cmdInsert.CommandType = CommandType.Text;
+                cmdInsert.CommandText = "UPDATE employees SET Name = @empName, Basic = @basic , DeptNo = @deptNo WHERE EmpNo = @empNo";  // Assuming DeptId is the first column
+                cmdInsert.Parameters.AddWithValue("@empNo", emp.EmpNo);
+                cmdInsert.Parameters.AddWithValue("@empName", emp.Name);
+                cmdInsert.Parameters.AddWithValue("@basic", emp.Basic);
+                cmdInsert.Parameters.AddWithValue("@deptNo", emp.DeptNo);
+
+                int rowsAffected = cmdInsert.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                    Console.WriteLine("Row updated successfully");
+                else
+                    Console.WriteLine("Failed to update row");
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            finally
+            {
+                cn.Close();
+            }
+        }
+
         public static List<Employee?>? getAllEmployees()
         {
 
